@@ -7,7 +7,7 @@ import { parse as _parse } from '@babel/parser';
  */
 const languages = [
   {
-    name: 'TypeScriptReact',
+    name: 'JavascriptReact',
     parsers: ['babel'],
     extensions: ['.jsx']
   }
