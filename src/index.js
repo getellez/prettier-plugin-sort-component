@@ -1,4 +1,5 @@
-import { parse as _parse } from '@babel/parser';
+const parse = require('@babel/parser').parse;
+const traverse = require('@babel/traverse').default;
 /* 
   languages Notes:
   - name: The name of the language. It should be unique.
@@ -22,7 +23,7 @@ const languages = [
   TIP: You can use web tools like https://astexplorer.net/ to see the AST of your ReactJS code with different parsers.
 */
 const babelParser = {
-  parse: (text) => _parse(text, { plugins: ['jsx'], sourceType: 'module' }).program,
+  parse: (text) => parse(text, { plugins: ['jsx'], sourceType: 'module' }),
   astFormat: 'estree',
   locStart: (node) => node.start,
   locEnd: (node) => node.end
@@ -41,20 +42,19 @@ const parsers = {
   printers Notes:
   - estree: The key of the printer object should match the astFormat of the parser object.
   - print: Here you manipulate the AST and return the code as a string to put it into the output file.
+    - ast: The AST of the code returned in the babelParser.parse property.
 */
 const printers = {
   estree: {
-    print: (path, options, _print) => {
-      const node = path.getValue();
+    print: (ast, options, print) => {
+      const node = ast.getValue();
       const text = options.originalText;
-
-      // Return the exact same code from the .jsx file, and add a new line.
       return text.slice(node.start, node.end) + "\n'This is a new line'";
     }
   }
 };
 
-export default {
+module.exports = {
   languages,
   parsers,
   printers
