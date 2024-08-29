@@ -3,6 +3,9 @@ export const MyComponent = () => {
   useEffect(() => {
     console.log('counter ::>', counter);
   }, [counter]);
+  useEffect(() => {
+    console.log('component loaded');
+  }, []);
   const currentDate = new Date().toISOString();
   const [counter, setCounter] = useState(0);
   const [message, setMessage] = useState('');
